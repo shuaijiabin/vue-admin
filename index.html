@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>vue-admin</title>
+    <link rel="stylesheet" href="static/css/reset.css"/>
+    <link rel="stylesheet" href="static/css/main.css"/>
+    <script src="static/js/smileRoll.js"></script>
+  </head>
+  <body>
+    <div id="app" style="height:100%;"></div>
+    <!-- built files will be auto injected -->
+    <script>
+      window.onload = function () {
+        var smileScroll0 = new smileScroll();
+        smileScroll0.smile({
+          elementId : "smile-scroll",
+          viewHeight : "100%",
+          viewWidth : "100%",
+          scrollType : "all", //horizontal 水平滚动 , vertical 垂直滚动, all 垂直横向都显示;
+        });
+      };
+    </script>
+  </body>
+</html>
