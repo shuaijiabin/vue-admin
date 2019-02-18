@@ -27,12 +27,14 @@
     </el-header>
     <el-container>
       <el-aside width="unset">
-        <el-radio-group class="tab_switch" :class="{ close: isCollapse }" v-model="isCollapse" style="margin-bottom: 20px;">
-          <el-radio-button :label="!isCollapse"><span></span></el-radio-button>
-        </el-radio-group>
+        <div @click.prevent="navSwitch">
+          <el-radio-group class="tab_switch" :class="{ close: isCollapse }" v-model="isCollapse" style="margin-bottom: 20px;">
+            <el-radio-button :label="!isCollapse"><span></span></el-radio-button>
+          </el-radio-group>
+        </div>
         <div class="time_container"></div>
         <div class="over_hide">
-          <div class="smile-scroll" @click="reRcroll">
+          <div class="smile-scroll">
             <el-menu default-active="1-4-1" class="el-menu-vertical-demo" :collapse="isCollapse">
               <el-submenu index="1">
                 <template slot="title">
@@ -100,16 +102,13 @@ export default {
     Regist
   },
   methods: {
-    reRcroll: function () {
-      window.onload = function () {
-        var smileScroll0 = new smileScroll();
-        smileScroll0.smile({
-          elementId : "smile-scroll",
-          viewHeight : "100%",
-          viewWidth : "100%",
-          scrollType : "all", //horizontal 水平滚动 , vertical 垂直滚动, all 垂直横向都显示;
-        })
+    navSwitch: function () {
+      if (this.isCollapse) {
+        this.isCollapse = false
+      } else {
+        this.isCollapse = true
       }
+      console.log(7878)
     }
   }
 }
@@ -212,5 +211,9 @@ export default {
     float:left;
     margin-left:4px;
     font-weight:normal;
+  }
+  .el-radio-button:focus:not(.is-focus):not(:active):not(.is-disabled){
+    -webkit-box-shadow:none;
+    box-shadow:none;
   }
 </style>

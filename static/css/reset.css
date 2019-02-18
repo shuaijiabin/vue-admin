@@ -20,9 +20,10 @@ input {
     padding-bottom: 0;
     font-family: "SimSun","宋体"
 }
-input::-moz-focus-inner {
+input::-moz-focus-inner,label {
     border: 0;
-    padding: 0
+    padding: 0;
+    outline: none
 }
 select,input {
     vertical-align: middle
