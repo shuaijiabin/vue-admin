@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
 import Container from '@/components/main/Container'
+import StarRating from '@/components/selfFeatures/StarRating'
 import Login from '@/components/Login'
 import Regist from '@/components/Regist'
 Vue.use(Router)
@@ -10,9 +10,14 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld,
+      name: 'Container',
+      component: Container,
       children: [
+        {
+          path: 'selfFeatures/StarRating',
+          name: 'StarRating',
+          component: StarRating
+        },
         {
           path: '/login',
           name: 'Login',
@@ -24,11 +29,6 @@ export default new Router({
           component: Regist
         }
       ]
-    },
-    {
-      path: '/Container',
-      name: 'Container',
-      component: Container
     }
   ]
 })
