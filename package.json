@@ -11,8 +11,9 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "babel-plugin-prismjs": "^1.0.2",
     "element-ui": "^2.4.11",
-    "highlight.js": "^9.14.2",
+    "prismjs": "^1.15.0",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
   },
