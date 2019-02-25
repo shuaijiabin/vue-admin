@@ -1,5 +1,19 @@
 <template>
   <div class="login">
+  	<div id="star-rating">
+	</div>
+	<p id="star-tips"></p>
+	<pre class="line-numbers" style="white-space:pre-wrap;">
+	  <code ref="message" class="language-css">
+	#star-rating i{ font-style: normal; cursor: pointer; }
+	  </code>
+	</pre>
+	<pre class="line-numbers" style="white-space:pre-wrap;">
+	  <code ref="message" class="language-html">
+  	&ltdiv id="star-rating"&gt&lt/div&gt
+	&ltp id="star-tips"&gt&lt/p&gt
+	  </code>
+	</pre>
 	<pre class="line-numbers" style="white-space:pre-wrap;">
 	  <code ref="message" class="language-js">
 	//Star Rating
@@ -128,8 +142,18 @@ export default {
     }
   },
   mounted: function () {
-  	console.log(this.$refs.message.innerHTML)
   	Prism.highlightAll()
+  	var pdStar = new PDStar();
+	pdStar.PDstar("star-rating",{
+		tipEle: "star-tips",
+		fontSize: "20px",
+		tips: ["不推荐", "一般", "不错", "很棒", "极力推荐！"],
+		callBack: function(score) {
+			console.log(score)
+		},
+		isReScore: true,
+		score: 3
+	})
   },
   methods: {
   }
@@ -204,4 +228,5 @@ code {
 .token.inserted {
     color: green
 }
+#star-rating i{ font-style: normal; cursor: pointer; }
 </style>
