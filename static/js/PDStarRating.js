@@ -1,4 +1,7 @@
-//Star Rating
+/**
+*  Star Rating
+*  https://github.com/LPDLKBN/Star-rating
+**/
 ;(function(undefined){
 	"use strict"
 	var _global;
@@ -58,8 +61,8 @@
 			for (var i = 0; i < stars.length; i++) {
 				stars[i].index = i;
         			stars[i].addEventListener("mouseover", function(event) {
-        				if (_This.defaults.isReScore) 
-        					_This.isScoreFinish = false;
+        				var event = event || window.event;
+						event.preventDefault();
 	        			if (!_This.isScoreFinish) {
 	        				for (var j = 0; j < 5; j++) {
 	        					if (j<=event.target.index) {
@@ -76,6 +79,8 @@
 	        			};
         			});
 				stars[i].addEventListener("click", function(event) {
+					var event = event || window.event;
+					event.preventDefault();
 					if (_This.isScoreFinish) {
 						return false;
 					};
@@ -86,7 +91,9 @@
         				_This.isScoreFinish = true;
         			});
 			};
-			starRating.addEventListener("mouseleave", function() {
+			starRating.addEventListener("mouseleave", function(event) {
+				var event = event || window.event;
+				event.preventDefault();
         		if (!_This.isScoreFinish) {
         			for (var i = 0; i < stars.length; i++) {
         				stars[i].style.color = _This.defaults.defultColor;
@@ -95,6 +102,12 @@
         		} else {
         			return false;
         		};
+			});
+			starRating.addEventListener("mouseenter", function (event) {
+				var event = event || window.event;
+				event.preventDefault();
+				if (_This.defaults.isReScore) 
+        			_This.isScoreFinish = false;
 			});
 		},
 	};

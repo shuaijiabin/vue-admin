@@ -138,6 +138,7 @@ export default {
     overflow:unset;
     transition:all 0.3s ease;
     height:100%;
+    z-index:999;
   }
   .el-aside:hover .tab_switch{
     right:-60px;

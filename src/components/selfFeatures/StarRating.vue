@@ -1,28 +1,40 @@
 <template>
-  <div class="login">
-  	<div id="star-rating">
-	</div>
-	<p id="star-tips"></p>
+  <div id="wrap-star">
+  	<strong>DEMO 1</strong>
+  	<div class="dm-contain clearfix">
+  		<div id="star-rating">
+		</div>
+		<p id="star-tips"></p>
+  	</div>
+  	<strong>CSS</strong>
 	<pre class="line-numbers" style="white-space:pre-wrap;">
 	  <code ref="message" class="language-css">
-	#star-rating i{ font-style: normal; cursor: pointer; }
+	#star-rating{ float:left; }
+	#star-tips{ float:left; line-height:26px; padding-left:8px; }
+	#star-rating i{ font-style: normal; cursor: pointer;display:inline-block;transition:all 0.3s ease; } /* 需要添加兼容样式 */
+	#star-rating i:hover{ transform:scale(1.2); } /* 需要添加兼容样式 */
 	  </code>
 	</pre>
+	<strong>HTML</strong>
 	<pre class="line-numbers" style="white-space:pre-wrap;">
 	  <code ref="message" class="language-html">
   	&ltdiv id="star-rating"&gt&lt/div&gt
 	&ltp id="star-tips"&gt&lt/p&gt
 	  </code>
 	</pre>
-	<pre class="line-numbers" style="white-space:pre-wrap;">
+	<strong>JS</strong>
+	<pre class="line-numbers" style="white-space:pre-wrap;max-height:400px;">
 	  <code ref="message" class="language-js">
-	//Star Rating
-	;(function(undefined){
-		"use strict"
-		var _global;
-		var PDStar = function() {
-			this.isScoreFinish = false;  //评分选定条件
-			this.defaults = {
+	/**
+	*  Star Rating
+	*  https://github.com/LPDLKBN/Star-rating
+	**/
+    ;(function(undefined){
+    	"use strict"
+    	var _global;
+    	var PDStar = function() {
+    		this.isScoreFinish = false;  //评分选定条件
+    		this.defaults = {
 	            tipEle: null,  //提示DOM
 	            fontSize: "40px",  //图标大小
 	            isReScore: false,  //是否可以重新评分
@@ -33,22 +45,22 @@
 	            defultColor: "rgb(220,220,220)",  //未选中状态颜色
 	            selectColor: ["rgb(198, 209, 222)", "#8eb9f5", "#ffac38", "#ff8547", "#f54545"] //选中状态颜色
 	        };
-		};
-		PDStar.prototype = {
-			PDstar:function(ele,options) {
-				this.element = ele;
-				this.defaults.tipEle = options.tipEle;
-				this.defaults.tips = (options.tips!==undefined && options.tips) || this.defaults.tips;
-				this.defaults.score = (options.score!==undefined && options.score) || this.defaults.score;
-				this.defaults.content = (options.content!==undefined && options.content) || this.defaults.content;
-				this.defaults.fontSize = (options.fontSize!==undefined && options.fontSize) || this.defaults.fontSize;
-				this.defaults.callBack = (options.callBack!==undefined && options.callBack) || this.defaults.callBack;
-				this.defaults.isReScore = (options.isReScore!==undefined && options.isReScore) || this.defaults.isReScore;
-				this.defaults.selectColor = (options.selectColor!==undefined && options.selectColor) || this.defaults.selectColor;
-				this.defaults.defultColor = (options.defultColor!==undefined && options.defultColor) || this.defaults.defultColor;
-				this.init();
-			},
-			init: function() {
+    	};
+    	PDStar.prototype = {
+    		PDstar:function(ele,options) {
+    			this.element = ele;
+    			this.defaults.tipEle = options.tipEle;
+    			this.defaults.tips = (options.tips!==undefined && options.tips) || this.defaults.tips;
+    			this.defaults.score = (options.score!==undefined && options.score) || this.defaults.score;
+    			this.defaults.content = (options.content!==undefined && options.content) || this.defaults.content;
+    			this.defaults.fontSize = (options.fontSize!==undefined && options.fontSize) || this.defaults.fontSize;
+    			this.defaults.callBack = (options.callBack!==undefined && options.callBack) || this.defaults.callBack;
+    			this.defaults.isReScore = (options.isReScore!==undefined && options.isReScore) || this.defaults.isReScore;
+    			this.defaults.selectColor = (options.selectColor!==undefined && options.selectColor) || this.defaults.selectColor;
+    			this.defaults.defultColor = (options.defultColor!==undefined && options.defultColor) || this.defaults.defultColor;
+    			this.init();
+    		},
+    		init: function() {
 				var _This = this;
 				var starRating = document.getElementById(_This.element);
 				var starTips = document.getElementById(_This.defaults.tipEle);
@@ -76,8 +88,8 @@
 				for (var i = 0; i < stars.length; i++) {
 					stars[i].index = i;
 	        			stars[i].addEventListener("mouseover", function(event) {
-	        				if (_This.defaults.isReScore) 
-	        					_This.isScoreFinish = false;
+	        				var event = event || window.event;
+							event.preventDefault();
 		        			if (!_This.isScoreFinish) {
 		        				for (var j = 0; j < 5; j++) {
 		        					if (j<=event.target.index) {
@@ -94,6 +106,8 @@
 		        			};
 	        			});
 					stars[i].addEventListener("click", function(event) {
+						var event = event || window.event;
+						event.preventDefault();
 						if (_This.isScoreFinish) {
 							return false;
 						};
@@ -104,7 +118,9 @@
 	        				_This.isScoreFinish = true;
 	        			});
 				};
-				starRating.addEventListener("mouseleave", function() {
+				starRating.addEventListener("mouseleave", function(event) {
+					var event = event || window.event;
+					event.preventDefault();
 	        		if (!_This.isScoreFinish) {
 	        			for (var i = 0; i < stars.length; i++) {
 	        				stars[i].style.color = _This.defaults.defultColor;
@@ -114,9 +130,15 @@
 	        			return false;
 	        		};
 				});
+				starRating.addEventListener("mouseenter", function (event) {
+					var event = event || window.event;
+					event.preventDefault();
+					if (_This.defaults.isReScore) 
+	        			_This.isScoreFinish = false;
+				});
 			},
-		};
-		// 将插件对象暴露给全局对象
+    	};
+    	// 将插件对象暴露给全局对象
 	    _global = (function(){ return this || (0, eval)('this'); }());
 	    if (typeof module !== "undefined" && module.exports) {
 	        module.exports = PDStar;
@@ -125,7 +147,28 @@
 	    } else {
 	        !('PDStar' in _global) && (_global.PDStar = PDStar);
 	    }
-	})();
+    })();
+	  </code>
+	</pre>
+	<strong>调用</strong>
+	<pre class="line-numbers" style="white-space:pre-wrap;">
+	  <code ref="message" class="language-js">
+  	window.onload = function () {
+		var pdStar = new PDStar();
+		pdStar.PDstar("star-rating",{
+			tipEle: "star-tips", //信息提示标签
+			fontSize: "20px",  //图标大小
+			tips: ["不推荐", "一般", "不错", "很棒", "极力推荐！"],  //提示信息内容
+			callBack: function(score) { //选中后的回调函数
+				console.log(score);
+			},
+			isReScore: true,  //是否可以重选
+			score: 3,  //初始状态星数
+			content: "★",  //评分图标
+            defultColor: "rgb(220,220,220)",  //未选中状态颜色
+            selectColor: ["rgb(198, 209, 222)", "#8eb9f5", "#ffac38", "#ff8547", "#f54545"] //选中状态颜色
+		});
+	};
 	  </code>
 	</pre>
   </div>
@@ -148,11 +191,7 @@ export default {
 		tipEle: "star-tips",
 		fontSize: "20px",
 		tips: ["不推荐", "一般", "不错", "很棒", "极力推荐！"],
-		callBack: function(score) {
-			console.log(score)
-		},
-		isReScore: true,
-		score: 3
+		isReScore: true
 	})
   },
   methods: {
@@ -160,13 +199,14 @@ export default {
 }
 </script>
 
-<style>
-pre {
+<style scope>
+#wrap-star strong{ display:block; margin:12px 0; }
+#wrap-star pre {
     display: block;
     background-color: #282c34;
     color: #fff;
     padding: 20px 24px;
-    padding-left:40px;
+    padding-left:80px;
     text-align: left;
     font-family: Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;
     border: 1px solid transparent;
@@ -182,51 +222,54 @@ pre {
     word-wrap: normal;
     tab-size:0
 }
-pre code {
+#wrap-star pre code {
     font-family: inherit;
     color: #fff;
 }
-code {
+#wrap-star code {
 	margin-left:-40px;
 }
-.token.block-comment, .token.cdata, .token.comment, .token.doctype, .token.prolog {
+#wrap-star .token.block-comment, #wrap-star .token.cdata, #wrap-star .token.comment, #wrap-star .token.doctype, #wrap-star .token.prolog {
     color: #999
 }
-.token.punctuation {
+#wrap-star .token.punctuation {
     color: #ccc
 }
-.token.attr-name, .token.deleted, .token.namespace, .token.tag {
+#wrap-star .token.attr-name, #wrap-star .token.deleted, #wrap-star .token.namespace, #wrap-star .token.tag {
     color: #e2777a
 }
-.token.function-name {
+#wrap-star .token.function-name {
     color: #6196cc
 }
-.token.boolean, .token.function, .token.number {
+#wrap-star .token.boolean, #wrap-star .token.function, #wrap-star .token.number {
     color: #f08d49
 }
-.token.class-name, .token.constant, .token.property, .token.symbol {
+#wrap-star .token.class-name, #wrap-star .token.constant, #wrap-star .token.property, #wrap-star .token.symbol {
     color: #f8c555
 }
-.token.atrule, .token.builtin, .token.important, .token.keyword, .token.selector {
+#wrap-star .token.atrule, #wrap-star .token.builtin, #wrap-star .token.important, #wrap-star .token.keyword, #wrap-star .token.selector {
     color: #cc99cd
 }
-.token.attr-value, .token.char, .token.regex, .token.string, .token.variable {
+#wrap-star .token.attr-value, #wrap-star .token.char, #wrap-star .token.regex, #wrap-star .token.string, #wrap-star .token.variable {
     color: #7ec699
 }
-.token.entity, .token.operator, .token.url {
+#wrap-star .token.entity, #wrap-star .token.operator, #wrap-star .token.url {
     color: #67cdcc
 }
-.token.bold, .token.important {
+#wrap-star .token.bold, #wrap-star .token.important {
     font-weight: 700
 }
-.token.italic {
+#wrap-star .token.italic {
     font-style: italic
 }
-.token.entity {
+#wrap-star .token.entity {
     cursor: help
 }
-.token.inserted {
+#wrap-star .token.inserted {
     color: green
 }
-#star-rating i{ font-style: normal; cursor: pointer; }
+#star-rating{ float:left; }
+#star-tips{ float:left; line-height:26px; padding-left:8px; }
+#star-rating i{ font-style: normal; cursor: pointer;display:inline-block;transition:all 0.3s ease; }
+#star-rating i:hover{ transform:scale(1.2); }
 </style>
