@@ -17,18 +17,18 @@ export default new Router({
           path: 'selfFeatures/StarRating',
           name: 'StarRating',
           component: StarRating
-        },
-        {
-          path: '/login',
-          name: 'Login',
-          component: Login
-        },
-        {
-          path: '/regist',
-          name: 'Regist',
-          component: Regist
         }
       ]
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
+    },
+    {
+      path: '/regist',
+      name: 'Regist',
+      component: Regist
     }
   ]
 })
