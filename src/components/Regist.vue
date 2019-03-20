@@ -1,17 +1,17 @@
 <template>
   <div id="login">
   	<el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-position="left" label-width="100px" class="demo-ruleForm">
+      <el-form-item label="用户" prop="account">
+        <el-input v-model="ruleForm2.account"></el-input>
+      </el-form-item>
   	  <el-form-item label="密码" prop="pass">
   	    <el-input type="password" v-model="ruleForm2.pass" autocomplete="off"></el-input>
   	  </el-form-item>
   	  <el-form-item label="确认密码" prop="checkPass">
   	    <el-input type="password" v-model="ruleForm2.checkPass" autocomplete="off"></el-input>
   	  </el-form-item>
-  	  <el-form-item label="年龄" prop="age">
-  	    <el-input v-model.number="ruleForm2.age"></el-input>
-  	  </el-form-item>
   	  <el-form-item>
-  	    <el-button type="primary" @click="submitForm('ruleForm2')">提交</el-button>
+  	    <el-button type="primary" @click="submitForm('ruleForm2')">注册</el-button>
   	    <el-button @click="resetForm('ruleForm2')">重置</el-button>
   	  </el-form-item>
   	</el-form>
@@ -22,19 +22,16 @@
 export default {
   name: 'login',
   data() {
-      var checkAge = (rule, value, callback) => {
+      var validateAccount = (rule, value, callback) => {
         if (!value) {
           return callback(new Error('年龄不能为空'));
         }
         setTimeout(() => {
-          if (!Number.isInteger(value)) {
-            callback(new Error('请输入数字值'));
+          let reg = /[a-zA-Z\d]+\@[a-zA-Z]+\.[a-zA-Z]+/
+          if (Number.isInteger(Number(value))||reg.test(value)) {
+            callback();
           } else {
-            if (value < 18) {
-              callback(new Error('必须年满18岁'));
-            } else {
-              callback();
-            }
+            callback(new Error('请您使用正确的手机号或邮箱登录'));
           }
         }, 1000);
       };
@@ -61,7 +58,7 @@ export default {
         ruleForm2: {
           pass: '',
           checkPass: '',
-          age: ''
+          account: ''
         },
         rules2: {
           pass: [
@@ -70,8 +67,8 @@ export default {
           checkPass: [
             { validator: validatePass2, trigger: 'blur' }
           ],
-          age: [
-            { validator: checkAge, trigger: 'blur' }
+          account: [
+            { validator: validateAccount, trigger: 'blur' }
           ]
         }
       };
