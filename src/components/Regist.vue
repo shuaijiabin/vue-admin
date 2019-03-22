@@ -10,6 +10,12 @@
   	  <el-form-item label="确认密码" prop="checkPass">
   	    <el-input type="password" v-model="ruleForm2.checkPass" autocomplete="off"></el-input>
   	  </el-form-item>
+      <el-form-item label="验证码" prop="code">
+        <div class="re-code">
+          <el-input type="code"></el-input>
+          <el-button>发送</el-button>
+        </div>
+      </el-form-item>
   	  <el-form-item>
   	    <el-button type="primary" @click="submitForm('ruleForm2')">注册</el-button>
   	    <el-button @click="resetForm('ruleForm2')">重置</el-button>
@@ -103,5 +109,27 @@ export default {
   margin:auto;
   border-radius:4px;
   -moz-box-shadow:0px 0px 8px #969696; -webkit-box-shadow:0px 0px 8px #969696; box-shadow:0px 0px 8px #969696;
+}
+.re-code{
+  width:100%;
+  position:relative;
+  overflow:hidden;
+}
+.re-code .el-button{
+  position:absolute;
+  top:2px;
+  right:1px;
+  border:none;
+}
+.re-code .el-button:before{
+  position:absolute;
+  content:"";
+  top:0;
+  bottom:0;
+  left:0;
+  margin:auto 0;
+  width:1px;
+  height:14px;
+  background:#ddd;
 }
 </style>
