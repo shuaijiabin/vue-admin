@@ -12,7 +12,7 @@
   	  </el-form-item>
       <el-form-item label="验证码" prop="code">
         <div class="re-code">
-          <el-input type="code"></el-input>
+          <el-input type="text" v-model="ruleForm2.code"></el-input>
           <el-button>发送</el-button>
         </div>
       </el-form-item>
@@ -64,7 +64,8 @@ export default {
         ruleForm2: {
           pass: '',
           checkPass: '',
-          account: ''
+          account: '',
+          code: ''
         },
         rules2: {
           pass: [
@@ -83,7 +84,7 @@ export default {
 	  submitForm(formName) {
 	    this.$refs[formName].validate((valid) => {
 	      if (valid) {
-	        alert('submit!');
+	        console.log(this.ruleForm2)
 	      } else {
 	        console.log('error submit!!');
 	        return false;
