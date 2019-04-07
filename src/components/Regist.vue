@@ -1,26 +1,26 @@
 <template>
   <div id="login">
-  	<el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-position="left" label-width="100px" class="demo-ruleForm">
+    <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-position="left" label-width="100px" class="demo-ruleForm">
       <el-form-item label="用户" prop="account">
         <el-input v-model="ruleForm2.account"></el-input>
       </el-form-item>
-  	  <el-form-item label="密码" prop="pass">
-  	    <el-input type="password" v-model="ruleForm2.pass" autocomplete="off"></el-input>
-  	  </el-form-item>
-  	  <el-form-item label="确认密码" prop="checkPass">
-  	    <el-input type="password" v-model="ruleForm2.checkPass" autocomplete="off"></el-input>
-  	  </el-form-item>
+      <el-form-item label="密码" prop="pass">
+        <el-input type="password" v-model="ruleForm2.pass" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="确认密码" prop="checkPass">
+        <el-input type="password" v-model="ruleForm2.checkPass" autocomplete="off"></el-input>
+      </el-form-item>
       <el-form-item label="验证码" prop="code">
         <div class="re-code">
           <el-input type="text" v-model="ruleForm2.code"></el-input>
-          <el-button>发送</el-button>
+          <el-button @click="sendForm('ruleForm2')">发送</el-button>
         </div>
       </el-form-item>
-  	  <el-form-item>
-  	    <el-button type="primary" @click="submitForm('ruleForm2')">注册</el-button>
-  	    <el-button @click="resetForm('ruleForm2')">重置</el-button>
-  	  </el-form-item>
-  	</el-form>
+      <el-form-item>
+        <el-button type="primary" @click="submitForm('ruleForm2')">注册</el-button>
+        <el-button @click="resetForm('ruleForm2')">重置</el-button>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
@@ -30,7 +30,7 @@ export default {
   data() {
       var validateAccount = (rule, value, callback) => {
         if (!value) {
-          return callback(new Error('年龄不能为空'));
+          return callback(new Error('账号不能为空'));
         }
         setTimeout(() => {
           let reg = /[a-zA-Z\d]+\@[a-zA-Z]+\.[a-zA-Z]+/
@@ -62,9 +62,9 @@ export default {
       };
       return {
         ruleForm2: {
+          account: '',
           pass: '',
           checkPass: '',
-          account: '',
           code: ''
         },
         rules2: {
@@ -79,22 +79,57 @@ export default {
           ]
         }
       };
-	},
-	methods: {
-	  submitForm(formName) {
-	    this.$refs[formName].validate((valid) => {
-	      if (valid) {
-	        console.log(this.ruleForm2)
-	      } else {
-	        console.log('error submit!!');
-	        return false;
-	      }
-	    });
-	  },
-	  resetForm(formName) {
-	    this.$refs[formName].resetFields();
-	  }
-	}
+  },
+  methods: {
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          // console.log(this.ruleForm2)
+          var url = 'http://www.laravel-admin.com/api/user/register'
+          this.$axios.get(url,{
+            params: {
+              user_name: this.ruleForm2.account,
+              user_pwd: this.ruleForm2.pass,
+              code: this.ruleForm2.code
+            }
+          })
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+    },
+    sendForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          var url = 'http://www.laravel-admin.com/api/user/code'
+          this.$axios.get(url,{
+            params: {
+              user_name: this.ruleForm2.account,
+              is_exist: 0 //账号是否已存在
+            }
+          })
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+        } else {
+          callback(new Error('请输入账号'));
+        }
+      });
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    }
+  }
   }
 </script>
 
