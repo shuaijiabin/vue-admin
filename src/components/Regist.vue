@@ -13,7 +13,7 @@
       <el-form-item label="验证码" prop="code">
         <div class="re-code">
           <el-input type="text" v-model="ruleForm2.code"></el-input>
-          <el-button @click="sendForm('ruleForm2')">发送</el-button>
+          <el-button @click="sendForm('ruleForm2')" :loading="iscodeloading">发送</el-button>
         </div>
       </el-form-item>
       <el-form-item>
@@ -61,6 +61,7 @@ export default {
         }
       };
       return {
+        iscodeloading: false,
         ruleForm2: {
           account: '',
           pass: '',
@@ -82,6 +83,7 @@ export default {
   },
   methods: {
     submitForm(formName) {
+      var _this=this;
       this.$refs[formName].validate((valid) => {
         if (valid) {
           // console.log(this.ruleForm2)
@@ -94,18 +96,20 @@ export default {
             }
           })
           .then(function (response) {
-            console.log(response);
+            _this.openHTML();
           })
           .catch(function (error) {
-            console.log(error);
+            _this.openError('注册失败');
           })
         } else {
-          console.log('error submit!!');
+          _this.openWarning('邮箱验证失败');
           return false;
         }
       });
     },
     sendForm(formName) {
+      this.isloading=true;
+      var _this=this;
       this.$refs[formName].validate((valid) => {
         if (valid) {
           var url = 'http://www.laravel-admin.com/api/user/code'
@@ -116,18 +120,35 @@ export default {
             }
           })
           .then(function (response) {
-            console.log(response);
+            _this.iscodeloading=false;
           })
           .catch(function (error) {
-            console.log(error);
+            _this.iscodeloading=false;
+            _this.openWarning('验证匹配失败');
           })
         } else {
-          callback(new Error('请输入账号'));
+          this.iscodeloading=false;
+          _this.openWarning('验证失败哦');
         }
       });
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
+    },
+    openWarning(msg) {
+      this.$message({
+        message: msg,
+        type: 'warning'
+      });
+    },
+    openError(msg) {
+        this.$message.error(msg);
+    },
+    openHTML() {
+      this.$message({
+        dangerouslyUseHTMLString: true,
+        message: '<i :loading="true"></i> 注册中......</strong>'
+      });
     }
   }
   }
