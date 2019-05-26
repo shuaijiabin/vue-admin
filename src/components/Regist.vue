@@ -26,8 +26,9 @@
 
 <script>
 export default {
-  name: 'login',
+  name: 'regist',
   data() {
+      var _this=this;
       var validateAccount = (rule, value, callback) => {
         if (!value) {
           return callback(new Error('账号不能为空'));
@@ -35,7 +36,22 @@ export default {
         setTimeout(() => {
           let reg = /[a-zA-Z\d]+\@[a-zA-Z]+\.[a-zA-Z]+/
           if (Number.isInteger(Number(value))||reg.test(value)) {
-            callback();
+            var url = this.GLOBAL.URL.mainPage[0].is_exist
+            this.$axios.get(url,{
+              params: {
+                user_name: this.ruleForm2.account,
+              }
+            })
+            .then(function (response) {
+              if (response.data.data===1) {
+                callback()
+              } else {
+                callback(new Error('该邮箱已被注册'));
+              }
+            })
+            .catch(function (error) {
+              console.log(error);
+            })
           } else {
             callback(new Error('请您使用正确的手机号或邮箱登录'));
           }
@@ -86,8 +102,8 @@ export default {
       var _this=this;
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          // console.log(this.ruleForm2)
-          var url = 'http://www.laravel-admin.com/api/user/register'
+          _this.openHTML('注册中......');
+          var url = this.GLOBAL.URL.mainPage[0].register
           this.$axios.get(url,{
             params: {
               user_name: this.ruleForm2.account,
@@ -96,7 +112,8 @@ export default {
             }
           })
           .then(function (response) {
-            _this.openHTML();
+            _this.openHTML('注册成功！');
+            
           })
           .catch(function (error) {
             _this.openError('注册失败');
@@ -112,7 +129,7 @@ export default {
       var _this=this;
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          var url = 'http://www.laravel-admin.com/api/user/code'
+          var url = this.GLOBAL.URL.mainPage[0].code
           this.$axios.get(url,{
             params: {
               user_name: this.ruleForm2.account,
@@ -144,10 +161,10 @@ export default {
     openError(msg) {
         this.$message.error(msg);
     },
-    openHTML() {
+    openHTML(msg) {
       this.$message({
         dangerouslyUseHTMLString: true,
-        message: '<i :loading="true"></i> 注册中......</strong>'
+        message: '<i :loading="true"></i> '+msg+'</strong>'
       });
     }
   }

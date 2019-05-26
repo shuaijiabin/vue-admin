@@ -1,25 +1,25 @@
 <template>
   <div id="login">
   	<el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-position="left" label-width="100px" class="demo-ruleForm">
-      <el-form-item label="用户名" prop="user">
-        <el-input type="name" v-model="ruleForm2.user" autocomplete="off"></el-input>
+      <el-form-item label="用户名" prop="account">
+        <el-input type="name" v-model="ruleForm2.account" autocomplete="off"></el-input>
       </el-form-item>
   	  <el-form-item label="密码" prop="pass">
   	    <el-input type="password" v-model="ruleForm2.pass" autocomplete="off"></el-input>
   	  </el-form-item>
-      <el-row type="flex" class="row-bg">
+      <!-- <el-row type="flex" class="row-bg">
         <el-col :span="16">
           <el-form-item label="验证码" prop="code">
             <el-input type="code"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <div class="va-code"><img width="100%" src="http://localhost/vue/vue-admin/captcha.php?0.50005451541515" alt="验证码"/></div>
+          <div class="va-code"></div>
         </el-col>
-      </el-row>
+      </el-row> -->
   	  <el-form-item>
-  	    <el-button type="primary" @click="submitForm('ruleForm2')">提交</el-button>
-  	    <el-button @click="resetForm('ruleForm2')">重置</el-button>
+  	    <el-button type="primary" @click.prevent="submitForm('ruleForm2')">提交</el-button>
+  	    <el-button @click.prevent="resetForm('ruleForm2')">重置</el-button>
   	  </el-form-item>
   	</el-form>
   </div>
@@ -33,15 +33,12 @@ export default {
         if (value === '') {
           callback(new Error('请输入密码'));
         } else {
-          if (this.ruleForm2.checkPass !== '') {
-            this.$refs.ruleForm2.validateField('checkPass');
-          }
-          callback();
+          callback()
         }
       };
       return {
         ruleForm2: {
-          user: '',
+          account: '',
           pass: ''
         },
         rules2: {
@@ -53,9 +50,22 @@ export default {
 	},
 	methods: {
 	  submitForm(formName) {
+      var _this=this
 	    this.$refs[formName].validate((valid) => {
 	      if (valid) {
-	        alert('submit!');
+          var url=this.GLOBAL.URL.mainPage[0].login
+          this.$axios.get(url,{
+            params: {
+              user_name:this.ruleForm2.account,
+              user_pwd:this.ruleForm2.pass
+            }
+          })
+          .then(function (response) {
+            _this.$router.push({ path: 'selfFeatures/StarRating' })
+          })
+          .catch(function (error) {
+            console.log(error)
+          })
 	      } else {
 	        console.log('error submit!!');
 	        return false;

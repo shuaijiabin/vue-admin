@@ -6,7 +6,7 @@ import Login from '@/components/Login'
 import Regist from '@/components/Regist'
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -16,7 +16,10 @@ export default new Router({
         {
           path: 'selfFeatures/StarRating',
           name: 'StarRating',
-          component: StarRating
+          component: StarRating,
+          meta: {
+            requireAuth: true  //  在需要登录权限的页面添加该字段
+          }
         }
       ]
     },
@@ -32,3 +35,4 @@ export default new Router({
     }
   ]
 })
+export default router;
