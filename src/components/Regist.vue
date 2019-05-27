@@ -113,7 +113,7 @@ export default {
           })
           .then(function (response) {
             _this.openHTML('注册成功！');
-            
+            _this.$router.push({ path: '/login' })
           })
           .catch(function (error) {
             _this.openError('注册失败');

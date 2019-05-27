@@ -1,4 +1,4 @@
-const BASEURL  = 'http://www.laravel-admin.com/' //基本地址
+const BASEURL  = 'http://laravel.sunday-y.xin/' //基本地址
 const URL ={
     mainPage:[{
         register:BASEURL+'api/user/register',//注册地址
