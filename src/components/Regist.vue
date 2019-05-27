@@ -112,7 +112,7 @@ export default {
             }
           })
           .then(function (response) {
-            _this.openHTML('注册成功！');
+            _this.openSuccess('注册成功！');
             _this.$router.push({ path: '/login' })
           })
           .catch(function (error) {
@@ -160,6 +160,12 @@ export default {
     },
     openError(msg) {
         this.$message.error(msg);
+    },
+    openSuccess(msg) {
+      this.$message({
+        message: msg,
+        type: 'success'
+      });
     },
     openHTML(msg) {
       this.$message({
