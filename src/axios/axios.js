@@ -12,7 +12,7 @@ router.beforeEach((to, from, next) => {
         else {
             next({
                 path: '/login',
-                query: {redirect: to.fullPath}  // 将跳转的路由path作为参数，登录成功后跳转到该路由
+                query: {redirect: to.fullPath}  // 将跳转的路由path作为参数，登录失败后跳转到该路由
             })
         }
     }
@@ -44,6 +44,7 @@ axios.interceptors.response.use((response) => {
     // 响应头发生错误发生的操作
     // console.log(error.response)
     if (error.response.status) {
+        console.log(error.response.status)
         switch (error.response.status) {
             // 在登录成功后返回当前页面，这一步需要在登录页操作。                
             // 401 token过期                

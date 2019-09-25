@@ -1,0 +1,8 @@
+@media (min-width: 992px)
+.col-md-2 {
+    width: 16.66666667%;
+}
+@media (min-width: 768px)
+.col-sm-2 {
+    width: 16.66666667%;
+}

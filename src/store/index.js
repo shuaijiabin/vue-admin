@@ -1,17 +1,18 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-
+import GLOBAL from '../axios/serviceAPI.config.js'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
    state: {
-       name: null,
-       avatar: null,
-       mobile: null,
-       token: null,
-       remark: null,
-       auth: false,
+       name: window.sessionStorage.getItem('name') || '', //window.sessionStorage.getItem('name') ||
+       email: window.sessionStorage.getItem('email') || '', //window.sessionStorage.getItem('email') ||
+       avatar: window.sessionStorage.getItem('avatar') || '', //window.sessionStorage.getItem('avatar') ||
+       mobile: window.sessionStorage.getItem('mobile') || '', //window.sessionStorage.getItem('mobile') ||
+       token: window.sessionStorage.getItem('tolen') || '', //window.sessionStorage.getItem('tolen') ||
+       remark: window.sessionStorage.getItem('remark') || '', //window.sessionStorage.getItem('remark') ||
+       auth: window.sessionStorage.getItem('auth') || '',
    },
    mutations: {
        // 用户登录成功，存储 token 并设置 header 头
@@ -19,6 +20,7 @@ export default new Vuex.Store({
            state.auth = true
            state.token = token
            localStorage.token = token
+           window.sessionStorage.setItem('tolen',token)
        },
        // 用户刷新 token 成功，使用新的 token 替换掉本地的token
        refreshToken(state, token) {
@@ -28,14 +30,23 @@ export default new Vuex.Store({
        },
        // 登录成功后拉取用户的信息存储到本地
        profile(state, data) {
+        console.log(data)
            state.name = data.name
+           state.email = data.email
            state.mobile = data.mobile
            state.avatar = data.avatar
            state.remark = data.remark
+           window.sessionStorage.setItem('name',data.name)
+           window.sessionStorage.setItem('email',data.username)
+           window.sessionStorage.setItem('mobile',data.mobile)
+           window.sessionStorage.setItem('avatar',data.avatar)
+           window.sessionStorage.setItem('remark',data.remark)
+           window.sessionStorage.setItem('auth',true)
        },
        // 用户登出，清除本地数据
        logout(state){
            state.name = null
+           state.email = null
            state.mobile = null
            state.avatar = null
            state.remark = null
@@ -47,11 +58,10 @@ export default new Vuex.Store({
    },
    actions: {
         // 登录成功后保存用户信息
-       logined({dispatch,commit}, token) {
+       logined({dispatch,commit}, respose) {
            return new Promise(function (resolve, reject) {
-               commit('logined', token)
-               axios.defaults.headers.common['Authorization'] = token
-               dispatch('profile').then(() => {
+               commit('logined', respose.headers.authorization)
+               dispatch('profile', respose).then(() => {
                    resolve()
                }).catch(() => {
                    reject()
@@ -59,11 +69,16 @@ export default new Vuex.Store({
            })
        },
        // 登录成功后使用 token 拉取用户的信息
-       profile({commit}) {
+       profile({commit}, respose) {
            return new Promise(function (resolve, reject) {
-               axios.get('user/userinfo', {}).then(respond => {
+                axios.get(GLOBAL.URL.mainPage[0].userinfo, {
+                    params: {
+                        email:respose.data.data.user_name
+                    }
+                })
+                .then(respond => {
                    if (respond.status == 200) {
-                       commit('profile', respond.data)
+                       commit('profile', respond.data.data)
                        resolve()
                    } else {
                        reject()
@@ -72,12 +87,17 @@ export default new Vuex.Store({
            })
        },
        // 用户登出，清除本地数据并重定向至登录页面
-       logout({commit}) {
+       logout({state,commit}) {
            return new Promise(function (resolve, reject) {
-               commit('logout')
-               axios.post('user/logout', {}).then(respond => {
-                   Vue.$router.push({name:'login'})
-               })
+                axios.get(GLOBAL.URL.mainPage[0].loginout, {}).then(respond => {
+                    if (respond.status == 200) {
+                        commit('logout')
+                        window.sessionStorage.clear()
+                        resolve(respond)
+                    } else {
+                        reject()
+                    }
+                })
            })
        },
        // 将刷新的 token 保存至本地

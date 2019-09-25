@@ -30,10 +30,11 @@ export default {
   name: 'login',
   data() {
       var validatePass = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请输入密码'));
-        } else {
+        let reg = /[a-zA-Z\d]+\@[a-zA-Z]+\.[a-zA-Z]+/
+        if (Number.isInteger(Number(value))||reg.test(value)) {
           callback()
+        } else {
+          callback(new Error('请输入正确的邮箱号！'))
         }
       };
       return {
@@ -42,7 +43,7 @@ export default {
           pass: ''
         },
         rules2: {
-          pass: [
+          account: [
             { validator: validatePass, trigger: 'blur' }
           ]
         }
@@ -61,7 +62,12 @@ export default {
             }
           })
           .then(function (response) {
-            _this.$router.push({ path: 'selfFeatures/StarRating' })
+            if (response.data.code==200) {
+              _this.$store.dispatch('logined',response)
+              _this.$router.push({ path: '/' })
+            } else {
+              _this.openError('账号或密码错误。')
+            }
           })
           .catch(function (error) {
             console.log(error)
@@ -72,9 +78,30 @@ export default {
 	      }
 	    });
 	  },
-	  resetForm(formName) {
-	    this.$refs[formName].resetFields();
-	  }
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    },
+    openWarning(msg) {
+      this.$message({
+        message: msg,
+        type: 'warning'
+      });
+    },
+    openError(msg) {
+        this.$message.error(msg);
+    },
+    openSuccess(msg) {
+      this.$message({
+        message: msg,
+        type: 'success'
+      });
+    },
+    openHTML(msg) {
+      this.$message({
+        dangerouslyUseHTMLString: true,
+        message: '<i :loading="true"></i> '+msg+'</strong>'
+      });
+    }
 	}
   }
 </script>

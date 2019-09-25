@@ -1,5 +1,5 @@
 <template>
-  <div id="wrap-star">
+  <div id="wrap-star" class="prism-theme">
   	<strong>DEMO 1</strong>
   	<div class="dm-contain clearfix">
   		<div id="star-rating">
@@ -175,7 +175,7 @@
 </template>
 
 <script>
-import Prism from 'prismjs'
+// import Prism from 'prismjs'
 
 export default {
   name: 'StarRating',
@@ -200,74 +200,6 @@ export default {
 </script>
 
 <style scope>
-#wrap-star strong{ display:block; margin:12px 0; }
-#wrap-star pre {
-    display: block;
-    background-color: #282c34;
-    color: #fff;
-    padding: 20px 24px;
-    padding-left:80px;
-    text-align: left;
-    font-family: Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;
-    border: 1px solid transparent;
-    line-height: 1.4;
-    transition: all 0.3s;
-    font-size: 14px;
-    border-radius: 5px;
-    overflow-x: auto;
-    margin: 13px 0;
-    white-space: pre;
-    word-spacing: normal;
-    word-break: normal;
-    word-wrap: normal;
-    tab-size:0
-}
-#wrap-star pre code {
-    font-family: inherit;
-    color: #fff;
-}
-#wrap-star code {
-	margin-left:-40px;
-}
-#wrap-star .token.block-comment, #wrap-star .token.cdata, #wrap-star .token.comment, #wrap-star .token.doctype, #wrap-star .token.prolog {
-    color: #999
-}
-#wrap-star .token.punctuation {
-    color: #ccc
-}
-#wrap-star .token.attr-name, #wrap-star .token.deleted, #wrap-star .token.namespace, #wrap-star .token.tag {
-    color: #e2777a
-}
-#wrap-star .token.function-name {
-    color: #6196cc
-}
-#wrap-star .token.boolean, #wrap-star .token.function, #wrap-star .token.number {
-    color: #f08d49
-}
-#wrap-star .token.class-name, #wrap-star .token.constant, #wrap-star .token.property, #wrap-star .token.symbol {
-    color: #f8c555
-}
-#wrap-star .token.atrule, #wrap-star .token.builtin, #wrap-star .token.important, #wrap-star .token.keyword, #wrap-star .token.selector {
-    color: #cc99cd
-}
-#wrap-star .token.attr-value, #wrap-star .token.char, #wrap-star .token.regex, #wrap-star .token.string, #wrap-star .token.variable {
-    color: #7ec699
-}
-#wrap-star .token.entity, #wrap-star .token.operator, #wrap-star .token.url {
-    color: #67cdcc
-}
-#wrap-star .token.bold, #wrap-star .token.important {
-    font-weight: 700
-}
-#wrap-star .token.italic {
-    font-style: italic
-}
-#wrap-star .token.entity {
-    cursor: help
-}
-#wrap-star .token.inserted {
-    color: green
-}
 #star-rating{ float:left; }
 #star-tips{ float:left; line-height:26px; padding-left:8px; }
 #star-rating i{ font-style: normal; cursor: pointer;display:inline-block;transition:all 0.3s ease; }

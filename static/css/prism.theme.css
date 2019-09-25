@@ -65,3 +65,72 @@ code {
 .token.inserted {
     color: green
 }
+/* Theme */
+.prism-theme strong{ display:block; margin:12px 0; }
+.prism-theme pre.line-numbers {
+    display: block;
+    background-color: #282c34;
+    color: #fff;
+    padding: 20px 24px;
+    padding-left:80px !important;
+    text-align: left;
+    font-family: Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;
+    border: 1px solid transparent;
+    line-height: 1.4;
+    transition: all 0.3s;
+    font-size: 14px;
+    border-radius: 5px;
+    overflow-x: auto;
+    margin: 13px 0;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    tab-size:0
+}
+.prism-theme pre.line-numbers code {
+    font-family: inherit;
+    color: #fff;
+}
+.prism-theme code {
+    margin-left:-40px;
+}
+.prism-theme .token.block-comment, .prism-theme .token.cdata, .prism-theme .token.comment, .prism-theme .token.doctype, .prism-theme .token.prolog {
+    color: #999
+}
+.prism-theme .token.punctuation {
+    color: #ccc
+}
+.prism-theme .token.attr-name, .prism-theme .token.deleted, .prism-theme .token.namespace, .prism-theme .token.tag {
+    color: #e2777a
+}
+.prism-theme .token.function-name {
+    color: #6196cc
+}
+.prism-theme .token.boolean, .prism-theme .token.function, .prism-theme .token.number {
+    color: #f08d49
+}
+.prism-theme .token.class-name, .prism-theme .token.constant, .prism-theme .token.property, .prism-theme .token.symbol {
+    color: #f8c555
+}
+.prism-theme .token.atrule, .prism-theme .token.builtin, .prism-theme .token.important, .prism-theme .token.keyword, .prism-theme .token.selector {
+    color: #cc99cd
+}
+.prism-theme .token.attr-value, .prism-theme .token.char, .prism-theme .token.regex, .prism-theme .token.string, .prism-theme .token.variable {
+    color: #7ec699
+}
+.prism-theme .token.entity, .prism-theme .token.operator, .prism-theme .token.url {
+    color: #67cdcc
+}
+.prism-theme .token.bold, .prism-theme .token.important {
+    font-weight: 700
+}
+.prism-theme .token.italic {
+    font-style: italic
+}
+.prism-theme .token.entity {
+    cursor: help
+}
+.prism-theme .token.inserted {
+    color: green
+}
